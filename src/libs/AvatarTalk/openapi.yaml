@@ -1,0 +1,549 @@
+openapi: 3.0.3
+info:
+  title: AvatarTalk API
+  description: |
+    AvatarTalk is a realtime avatar video generation platform.
+    Generate lip-synced avatar videos from text with support for 14 avatars,
+    4 emotion states, and 17 languages. Videos are typically generated in under 2 seconds.
+  version: "1.0.0"
+  contact:
+    name: AvatarTalk
+    url: https://avatartalk.ai
+
+servers:
+  - url: https://api.avatartalk.ai
+    description: AvatarTalk Production API
+
+security:
+  - BearerAuth: []
+
+paths:
+  /inference:
+    post:
+      operationId: generateVideo
+      summary: Generate avatar video
+      description: |
+        Generate a lip-synced avatar video from text. The API uses text-to-speech
+        to create audio and synchronizes avatar lip movements with the generated audio.
+        Standard requests return a JSON response with video URLs.
+        Set the stream query parameter to true for streaming MP4 video response.
+      parameters:
+        - name: stream
+          in: query
+          required: false
+          description: |
+            When set to "true", returns a streaming MP4 video response instead of JSON.
+            The response Content-Type will be video/mp4.
+          schema:
+            type: string
+            enum:
+              - "true"
+              - "false"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InferenceRequest'
+      responses:
+        '200':
+          description: Video generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InferenceResponse'
+        '400':
+          description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '402':
+          description: Insufficient credits
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Inference failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /livekit/create-session:
+    post:
+      operationId: createLiveKitSession
+      summary: Create a LiveKit avatar session
+      description: |
+        Creates a new LiveKit session for real-time avatar interaction.
+        Returns session details including a participant token for joining the LiveKit room.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLiveKitSessionRequest'
+      responses:
+        '200':
+          description: Session created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiveKitSessionResponse'
+        '400':
+          description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '402':
+          description: Insufficient credits
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /livekit/delete-session/{taskId}:
+    delete:
+      operationId: deleteLiveKitSession
+      summary: Delete a LiveKit avatar session
+      description: |
+        Terminates an active LiveKit session and releases associated resources.
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          description: The unique task ID of the LiveKit session to delete
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Session deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteSessionResponse'
+        '401':
+          description: Invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Session not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /lightning/request-video/text:
+    post:
+      operationId: requestVideoByText
+      summary: Request video via Lightning Network (text)
+      description: |
+        Request an avatar video generation using Bitcoin Lightning Network payment.
+        Provide text to generate a Lightning invoice for payment.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LightningTextRequest'
+      responses:
+        '200':
+          description: Lightning invoice created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LightningInvoiceResponse'
+        '400':
+          description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /lightning/request-video/audio:
+    post:
+      operationId: requestVideoByAudio
+      summary: Request video via Lightning Network (audio)
+      description: |
+        Request an avatar video generation using Bitcoin Lightning Network payment.
+        Submit an audio file to generate a Lightning invoice for payment.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                audio:
+                  type: string
+                  format: binary
+                  description: Audio file for avatar lip-sync
+                avatar:
+                  type: string
+                  description: Avatar name to use
+                emotion:
+                  type: string
+                  description: Emotion state for the avatar
+              required:
+                - audio
+                - avatar
+      responses:
+        '200':
+          description: Lightning invoice created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LightningInvoiceResponse'
+        '400':
+          description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /lightning/generate-video:
+    post:
+      operationId: generateLightningVideo
+      summary: Generate video after Lightning payment
+      description: |
+        Generate the avatar video after a Lightning Network invoice has been paid.
+        Use the invoice from the request-video endpoint.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateLightningVideoRequest'
+      responses:
+        '200':
+          description: Video generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InferenceResponse'
+        '400':
+          description: Invalid parameters or unpaid invoice
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /lightning/payment/{invoice}:
+    get:
+      operationId: getPaymentStatus
+      summary: Check Lightning payment status
+      description: |
+        Check the payment status of a Lightning Network invoice.
+      parameters:
+        - name: invoice
+          in: path
+          required: true
+          description: The Lightning invoice string to check
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Payment status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentStatusResponse'
+        '404':
+          description: Invoice not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /lightning/payments:
+    get:
+      operationId: listPayments
+      summary: List all Lightning payments
+      description: |
+        List all Lightning Network payments associated with the API key.
+      responses:
+        '200':
+          description: List of payments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentsListResponse'
+        '401':
+          description: Invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: |
+        API key authentication. Include your API key as a Bearer token
+        in the Authorization header.
+
+  schemas:
+    AvatarName:
+      type: string
+      enum:
+        - japanese_man
+        - old_european_woman
+        - european_woman
+        - european_man
+        - african_man
+        - african_woman
+        - japanese_woman
+        - iranian_man
+        - mexican_man
+        - mexican_woman
+        - colombian_woman
+        - old_japanese_man
+        - arab_man
+        - arab_woman
+      description: |
+        Available avatar characters. Each avatar represents a different
+        person with distinct appearance and demographics.
+
+    Emotion:
+      type: string
+      enum:
+        - happy
+        - neutral
+        - serious
+      description: |
+        Emotion state for the avatar. Controls facial expression during speech.
+
+    Language:
+      type: string
+      enum:
+        - en
+        - es
+        - fr
+        - de
+        - it
+        - pt
+        - pl
+        - tr
+        - ru
+        - nl
+        - cs
+        - ar
+        - zh
+        - ja
+        - hu
+        - ko
+        - hi
+      description: |
+        Language code for text-to-speech. Determines the voice language
+        and pronunciation used for generating the avatar's speech.
+
+    InferenceRequest:
+      type: object
+      description: Request body for generating an avatar video from text
+      properties:
+        text:
+          type: string
+          description: The text for the avatar to speak. Will be converted to speech using TTS.
+        avatar:
+          $ref: '#/components/schemas/AvatarName'
+        emotion:
+          $ref: '#/components/schemas/Emotion'
+        language:
+          $ref: '#/components/schemas/Language'
+        delayed:
+          type: boolean
+          description: |
+            When true, the request is processed asynchronously.
+            The response will include a task ID for polling the result.
+          default: false
+      required:
+        - text
+        - avatar
+        - emotion
+
+    InferenceResponse:
+      type: object
+      description: Response from a successful video generation request
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the inference request
+        status:
+          type: string
+          description: Status of the inference (e.g., "success")
+        text:
+          type: string
+          description: The input text that was spoken
+        avatar:
+          type: string
+          description: The avatar name that was used
+        emotion:
+          type: string
+          description: The emotion state that was applied
+        language:
+          type: string
+          description: The language used for TTS
+        credits_consumed:
+          type: number
+          description: Number of credits consumed for this generation
+        video_duration_seconds:
+          type: number
+          format: double
+          description: Duration of the generated video in seconds
+        mp4_url:
+          type: string
+          format: uri
+          description: Direct download URL for the generated MP4 video
+        html_url:
+          type: string
+          format: uri
+          description: URL for viewing the video in a web browser
+      required:
+        - id
+        - status
+
+    CreateLiveKitSessionRequest:
+      type: object
+      description: Request body for creating a LiveKit avatar session
+      properties:
+        avatar:
+          $ref: '#/components/schemas/AvatarName'
+        emotion:
+          $ref: '#/components/schemas/Emotion'
+        language:
+          $ref: '#/components/schemas/Language'
+      required:
+        - avatar
+
+    LiveKitSessionResponse:
+      type: object
+      description: Response from creating a LiveKit session
+      properties:
+        task_id:
+          type: string
+          description: Unique task identifier for the session
+        participant_token:
+          type: string
+          description: Token for joining the LiveKit room as a participant
+        server_url:
+          type: string
+          format: uri
+          description: The LiveKit server URL to connect to
+        status:
+          type: string
+          description: Status of the session creation
+      required:
+        - task_id
+        - participant_token
+
+    DeleteSessionResponse:
+      type: object
+      description: Response from deleting a session
+      properties:
+        status:
+          type: string
+          description: Status message confirming deletion
+        task_id:
+          type: string
+          description: The task ID of the deleted session
+
+    LightningTextRequest:
+      type: object
+      description: Request body for Lightning Network text-based video generation
+      properties:
+        text:
+          type: string
+          description: The text for the avatar to speak
+        avatar:
+          $ref: '#/components/schemas/AvatarName'
+        emotion:
+          $ref: '#/components/schemas/Emotion'
+        language:
+          $ref: '#/components/schemas/Language'
+      required:
+        - text
+        - avatar
+        - emotion
+
+    LightningInvoiceResponse:
+      type: object
+      description: Response containing a Lightning Network invoice for payment
+      properties:
+        invoice:
+          type: string
+          description: Lightning Network payment invoice (BOLT 11 format)
+        amount_sats:
+          type: integer
+          description: Amount in satoshis required for payment
+        expires_at:
+          type: string
+          format: date-time
+          description: When the invoice expires
+
+    GenerateLightningVideoRequest:
+      type: object
+      description: Request body for generating a video after Lightning payment
+      properties:
+        invoice:
+          type: string
+          description: The Lightning invoice that has been paid
+      required:
+        - invoice
+
+    PaymentStatusResponse:
+      type: object
+      description: Status of a Lightning Network payment
+      properties:
+        invoice:
+          type: string
+          description: The Lightning invoice
+        paid:
+          type: boolean
+          description: Whether the invoice has been paid
+        amount_sats:
+          type: integer
+          description: Amount in satoshis
+        created_at:
+          type: string
+          format: date-time
+          description: When the payment was created
+
+    PaymentsListResponse:
+      type: object
+      description: List of Lightning Network payments
+      properties:
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentStatusResponse'
+          description: Array of payment records
+
+    ErrorResponse:
+      type: object
+      description: Error response from the API
+      properties:
+        error:
+          type: string
+          description: Error code (e.g., INVALID_PARAMETERS, INVALID_API_KEY, INSUFFICIENT_CREDITS, INFERENCE_FAILED)
+        message:
+          type: string
+          description: Human-readable error description
