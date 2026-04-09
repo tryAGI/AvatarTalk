@@ -5,6 +5,25 @@ namespace AvatarTalk
 {
     public partial class AvatarTalkClient
     {
+
+
+        private static readonly global::AvatarTalk.EndPointSecurityRequirement s_ListPaymentsSecurityRequirement0 =
+            new global::AvatarTalk.EndPointSecurityRequirement
+            {
+                Authorizations = new global::AvatarTalk.EndPointAuthorizationRequirement[]
+                {                    new global::AvatarTalk.EndPointAuthorizationRequirement
+                    {
+                        Type = "Http",
+                        Location = "Header",
+                        Name = "Bearer",
+                        FriendlyName = "Bearer",
+                    },
+                },
+            };
+        private static readonly global::AvatarTalk.EndPointSecurityRequirement[] s_ListPaymentsSecurityRequirements =
+            new global::AvatarTalk.EndPointSecurityRequirement[]
+            {                s_ListPaymentsSecurityRequirement0,
+            };
         partial void PrepareListPaymentsArguments(
             global::System.Net.Http.HttpClient httpClient);
         partial void PrepareListPaymentsRequest(
@@ -33,9 +52,15 @@ namespace AvatarTalk
             PrepareListPaymentsArguments(
                 httpClient: HttpClient);
 
+
+            var __authorizations = global::AvatarTalk.EndPointSecurityResolver.ResolveAuthorizations(
+                availableAuthorizations: Authorizations,
+                securityRequirements: s_ListPaymentsSecurityRequirements,
+                operationName: "ListPaymentsAsync");
+
             var __pathBuilder = new global::AvatarTalk.PathBuilder(
                 path: "/lightning/payments",
-                baseUri: HttpClient.BaseAddress); 
+                baseUri: HttpClient.BaseAddress);
             var __path = __pathBuilder.ToString();
             using var __httpRequest = new global::System.Net.Http.HttpRequestMessage(
                 method: global::System.Net.Http.HttpMethod.Get,
@@ -45,7 +70,7 @@ namespace AvatarTalk
             __httpRequest.VersionPolicy = global::System.Net.Http.HttpVersionPolicy.RequestVersionOrHigher;
 #endif
 
-            foreach (var __authorization in Authorizations)
+            foreach (var __authorization in __authorizations)
             {
                 if (__authorization.Type == "Http" ||
                     __authorization.Type == "OAuth2")

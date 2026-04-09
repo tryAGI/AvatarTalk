@@ -5,6 +5,25 @@ namespace AvatarTalk
 {
     public partial class AvatarTalkClient
     {
+
+
+        private static readonly global::AvatarTalk.EndPointSecurityRequirement s_RequestVideoByTextSecurityRequirement0 =
+            new global::AvatarTalk.EndPointSecurityRequirement
+            {
+                Authorizations = new global::AvatarTalk.EndPointAuthorizationRequirement[]
+                {                    new global::AvatarTalk.EndPointAuthorizationRequirement
+                    {
+                        Type = "Http",
+                        Location = "Header",
+                        Name = "Bearer",
+                        FriendlyName = "Bearer",
+                    },
+                },
+            };
+        private static readonly global::AvatarTalk.EndPointSecurityRequirement[] s_RequestVideoByTextSecurityRequirements =
+            new global::AvatarTalk.EndPointSecurityRequirement[]
+            {                s_RequestVideoByTextSecurityRequirement0,
+            };
         partial void PrepareRequestVideoByTextArguments(
             global::System.Net.Http.HttpClient httpClient,
             global::AvatarTalk.LightningTextRequest request);
@@ -42,9 +61,15 @@ namespace AvatarTalk
                 httpClient: HttpClient,
                 request: request);
 
+
+            var __authorizations = global::AvatarTalk.EndPointSecurityResolver.ResolveAuthorizations(
+                availableAuthorizations: Authorizations,
+                securityRequirements: s_RequestVideoByTextSecurityRequirements,
+                operationName: "RequestVideoByTextAsync");
+
             var __pathBuilder = new global::AvatarTalk.PathBuilder(
                 path: "/lightning/request-video/text",
-                baseUri: HttpClient.BaseAddress); 
+                baseUri: HttpClient.BaseAddress);
             var __path = __pathBuilder.ToString();
             using var __httpRequest = new global::System.Net.Http.HttpRequestMessage(
                 method: global::System.Net.Http.HttpMethod.Post,
@@ -54,7 +79,7 @@ namespace AvatarTalk
             __httpRequest.VersionPolicy = global::System.Net.Http.HttpVersionPolicy.RequestVersionOrHigher;
 #endif
 
-            foreach (var __authorization in Authorizations)
+            foreach (var __authorization in __authorizations)
             {
                 if (__authorization.Type == "Http" ||
                     __authorization.Type == "OAuth2")

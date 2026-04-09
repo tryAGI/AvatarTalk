@@ -15,7 +15,7 @@ namespace AvatarTalk
         /// <summary>
         /// AvatarTalk Production API
         /// </summary>
-        public const string DefaultBaseUrl = "https://api.avatartalk.ai";
+        public const string DefaultBaseUrl = "https://api.avatartalk.ai/";
 
         private bool _disposeHttpClient = true;
 
