@@ -13,12 +13,14 @@ namespace AvatarTalk
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="request"></param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::AvatarTalk.ApiException"></exception>
         global::System.Threading.Tasks.Task<global::AvatarTalk.InferenceResponse> GenerateVideoAsync(
 
             global::AvatarTalk.InferenceRequest request,
             global::AvatarTalk.GenerateVideoStream? stream = default,
+            global::AvatarTalk.AutoSDKRequestOptions? requestOptions = default,
             global::System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Generate avatar video<br/>
@@ -47,6 +49,7 @@ namespace AvatarTalk
         /// The response will include a task ID for polling the result.<br/>
         /// Default Value: false
         /// </param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::System.InvalidOperationException"></exception>
         global::System.Threading.Tasks.Task<global::AvatarTalk.InferenceResponse> GenerateVideoAsync(
@@ -56,6 +59,7 @@ namespace AvatarTalk
             global::AvatarTalk.GenerateVideoStream? stream = default,
             global::AvatarTalk.Language? language = default,
             bool? delayed = default,
+            global::AvatarTalk.AutoSDKRequestOptions? requestOptions = default,
             global::System.Threading.CancellationToken cancellationToken = default);
     }
 }
