@@ -25,6 +25,7 @@ namespace AvatarTalk
             Authorizations.Add(new global::AvatarTalk.EndPointAuthorization
             {
                 Type = "Http",
+                SchemeId = "HttpBearer",
                 Location = "Header",
                 Name = "Bearer",
                 Value = apiKey,
