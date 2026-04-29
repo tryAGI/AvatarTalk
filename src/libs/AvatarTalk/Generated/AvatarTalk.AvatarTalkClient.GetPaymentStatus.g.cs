@@ -125,7 +125,7 @@ namespace AvatarTalk
                 PrepareGetPaymentStatusRequest(
                     httpClient: HttpClient,
                     httpRequestMessage: __httpRequest,
-                    invoice: invoice);
+                    invoice: invoice!);
 
                 return __httpRequest;
             }
