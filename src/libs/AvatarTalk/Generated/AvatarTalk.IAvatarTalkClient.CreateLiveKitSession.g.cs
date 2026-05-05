@@ -23,6 +23,20 @@ namespace AvatarTalk
         /// Creates a new LiveKit session for real-time avatar interaction.<br/>
         /// Returns session details including a participant token for joining the LiveKit room.
         /// </summary>
+        /// <param name="request"></param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
+        /// <param name="cancellationToken">The token to cancel the operation with</param>
+        /// <exception cref="global::AvatarTalk.ApiException"></exception>
+        global::System.Threading.Tasks.Task<global::AvatarTalk.AutoSDKHttpResponse<global::AvatarTalk.LiveKitSessionResponse>> CreateLiveKitSessionAsResponseAsync(
+
+            global::AvatarTalk.CreateLiveKitSessionRequest request,
+            global::AvatarTalk.AutoSDKRequestOptions? requestOptions = default,
+            global::System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Create a LiveKit avatar session<br/>
+        /// Creates a new LiveKit session for real-time avatar interaction.<br/>
+        /// Returns session details including a participant token for joining the LiveKit room.
+        /// </summary>
         /// <param name="avatar">
         /// Available avatar characters. Each avatar represents a different<br/>
         /// person with distinct appearance and demographics.
