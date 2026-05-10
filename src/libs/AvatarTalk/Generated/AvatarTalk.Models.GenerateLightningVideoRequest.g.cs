@@ -42,5 +42,6 @@ namespace AvatarTalk
         public GenerateLightningVideoRequest()
         {
         }
+
     }
 }

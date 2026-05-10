@@ -84,5 +84,6 @@ namespace AvatarTalk
         public LightningTextRequest()
         {
         }
+
     }
 }

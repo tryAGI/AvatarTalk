@@ -76,5 +76,6 @@ namespace AvatarTalk
         public LiveKitSessionResponse()
         {
         }
+
     }
 }

@@ -41,5 +41,6 @@ namespace AvatarTalk
         public PaymentsListResponse()
         {
         }
+
     }
 }
