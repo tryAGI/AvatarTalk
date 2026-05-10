@@ -142,5 +142,6 @@ namespace AvatarTalk
         public InferenceResponse()
         {
         }
+
     }
 }

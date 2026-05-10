@@ -99,5 +99,6 @@ namespace AvatarTalk
         public InferenceRequest()
         {
         }
+
     }
 }

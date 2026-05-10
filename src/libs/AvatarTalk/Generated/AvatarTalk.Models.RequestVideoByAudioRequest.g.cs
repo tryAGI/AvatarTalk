@@ -77,5 +77,6 @@ namespace AvatarTalk
         public RequestVideoByAudioRequest()
         {
         }
+
     }
 }

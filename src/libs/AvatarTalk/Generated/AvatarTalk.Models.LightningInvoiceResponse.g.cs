@@ -63,5 +63,6 @@ namespace AvatarTalk
         public LightningInvoiceResponse()
         {
         }
+
     }
 }
