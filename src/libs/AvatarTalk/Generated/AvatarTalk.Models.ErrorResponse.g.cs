@@ -52,5 +52,6 @@ namespace AvatarTalk
         public ErrorResponse()
         {
         }
+
     }
 }

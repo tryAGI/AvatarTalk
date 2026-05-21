@@ -56,6 +56,30 @@ namespace AvatarTalk
             global::AvatarTalk.AutoSDKRequestOptions? requestOptions = default,
             global::System.Threading.CancellationToken cancellationToken = default)
         {
+            var __response = await GenerateLightningVideoAsResponseAsync(
+
+                request: request,
+                requestOptions: requestOptions,
+                cancellationToken: cancellationToken
+            ).ConfigureAwait(false);
+
+            return __response.Body;
+        }
+        /// <summary>
+        /// Generate video after Lightning payment<br/>
+        /// Generate the avatar video after a Lightning Network invoice has been paid.<br/>
+        /// Use the invoice from the request-video endpoint.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
+        /// <param name="cancellationToken">The token to cancel the operation with</param>
+        /// <exception cref="global::AvatarTalk.ApiException"></exception>
+        public async global::System.Threading.Tasks.Task<global::AvatarTalk.AutoSDKHttpResponse<global::AvatarTalk.InferenceResponse>> GenerateLightningVideoAsResponseAsync(
+
+            global::AvatarTalk.GenerateLightningVideoRequest request,
+            global::AvatarTalk.AutoSDKRequestOptions? requestOptions = default,
+            global::System.Threading.CancellationToken cancellationToken = default)
+        {
             request = request ?? throw new global::System.ArgumentNullException(nameof(request));
 
             PrepareArguments(
@@ -86,6 +110,7 @@ namespace AvatarTalk
 
             global::System.Net.Http.HttpRequestMessage __CreateHttpRequest()
             {
+
                             var __pathBuilder = new global::AvatarTalk.PathBuilder(
                                 path: "/lightning/generate-video",
                                 baseUri: HttpClient.BaseAddress);
@@ -165,6 +190,8 @@ namespace AvatarTalk
                                 attempt: __attempt,
                                 maxAttempts: __maxAttempts,
                                 willRetry: false,
+                                retryDelay: null,
+                                retryReason: global::System.String.Empty,
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                     try
                     {
@@ -175,6 +202,11 @@ namespace AvatarTalk
                     }
                     catch (global::System.Net.Http.HttpRequestException __exception)
                     {
+                        var __retryDelay = global::AvatarTalk.AutoSDKRequestOptionsSupport.GetRetryDelay(
+                            clientOptions: Options,
+                            requestOptions: requestOptions,
+                            response: null,
+                            attempt: __attempt);
                         var __willRetry = __attempt < __maxAttempts && !__effectiveCancellationToken.IsCancellationRequested;
                         await global::AvatarTalk.AutoSDKRequestOptionsSupport.OnAfterErrorAsync(
                             clientOptions: Options,
@@ -192,6 +224,8 @@ namespace AvatarTalk
                                 attempt: __attempt,
                                 maxAttempts: __maxAttempts,
                                 willRetry: __willRetry,
+                                retryDelay: __willRetry ? __retryDelay : (global::System.TimeSpan?)null,
+                                retryReason: "exception",
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                         if (!__willRetry)
                         {
@@ -201,8 +235,7 @@ namespace AvatarTalk
                         __httpRequest.Dispose();
                         __httpRequest = null;
                         await global::AvatarTalk.AutoSDKRequestOptionsSupport.DelayBeforeRetryAsync(
-                            clientOptions: Options,
-                            requestOptions: requestOptions,
+                            retryDelay: __retryDelay,
                             cancellationToken: __effectiveCancellationToken).ConfigureAwait(false);
                         continue;
                     }
@@ -211,6 +244,11 @@ namespace AvatarTalk
                         __attempt < __maxAttempts &&
                         global::AvatarTalk.AutoSDKRequestOptionsSupport.ShouldRetryStatusCode(__response.StatusCode))
                     {
+                        var __retryDelay = global::AvatarTalk.AutoSDKRequestOptionsSupport.GetRetryDelay(
+                            clientOptions: Options,
+                            requestOptions: requestOptions,
+                            response: __response,
+                            attempt: __attempt);
                         await global::AvatarTalk.AutoSDKRequestOptionsSupport.OnAfterErrorAsync(
                             clientOptions: Options,
                             context: global::AvatarTalk.AutoSDKRequestOptionsSupport.CreateHookContext(
@@ -227,14 +265,15 @@ namespace AvatarTalk
                                 attempt: __attempt,
                                 maxAttempts: __maxAttempts,
                                 willRetry: true,
+                                retryDelay: __retryDelay,
+                                retryReason: "status:" + ((int)__response.StatusCode).ToString(global::System.Globalization.CultureInfo.InvariantCulture),
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                         __response.Dispose();
                         __response = null;
                         __httpRequest.Dispose();
                         __httpRequest = null;
                         await global::AvatarTalk.AutoSDKRequestOptionsSupport.DelayBeforeRetryAsync(
-                            clientOptions: Options,
-                            requestOptions: requestOptions,
+                            retryDelay: __retryDelay,
                             cancellationToken: __effectiveCancellationToken).ConfigureAwait(false);
                         continue;
                     }
@@ -274,6 +313,8 @@ namespace AvatarTalk
                                 attempt: __attemptNumber,
                                 maxAttempts: __maxAttempts,
                                 willRetry: false,
+                                retryDelay: null,
+                                retryReason: global::System.String.Empty,
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                 }
                 else
@@ -294,6 +335,8 @@ namespace AvatarTalk
                                 attempt: __attemptNumber,
                                 maxAttempts: __maxAttempts,
                                 willRetry: false,
+                                retryDelay: null,
+                                retryReason: global::System.String.Empty,
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                 }
                             // Invalid parameters or unpaid invoice
@@ -356,9 +399,13 @@ namespace AvatarTalk
                                 {
                                     __response.EnsureSuccessStatusCode();
 
-                                    return
-                                        global::AvatarTalk.InferenceResponse.FromJson(__content, JsonSerializerContext) ??
+                                    var __value = global::AvatarTalk.InferenceResponse.FromJson(__content, JsonSerializerContext) ??
                                         throw new global::System.InvalidOperationException($"Response deserialization failed for \"{__content}\" ");
+                                    return new global::AvatarTalk.AutoSDKHttpResponse<global::AvatarTalk.InferenceResponse>(
+                                        statusCode: __response.StatusCode,
+                                        headers: global::AvatarTalk.AutoSDKHttpResponse.CreateHeaders(__response),
+                                        requestUri: __response.RequestMessage?.RequestUri,
+                                        body: __value);
                                 }
                                 catch (global::System.Exception __ex)
                                 {
@@ -386,9 +433,13 @@ namespace AvatarTalk
                 #endif
                                     ).ConfigureAwait(false);
 
-                                    return
-                                        await global::AvatarTalk.InferenceResponse.FromJsonStreamAsync(__content, JsonSerializerContext).ConfigureAwait(false) ??
+                                    var __value = await global::AvatarTalk.InferenceResponse.FromJsonStreamAsync(__content, JsonSerializerContext).ConfigureAwait(false) ??
                                         throw new global::System.InvalidOperationException("Response deserialization failed.");
+                                    return new global::AvatarTalk.AutoSDKHttpResponse<global::AvatarTalk.InferenceResponse>(
+                                        statusCode: __response.StatusCode,
+                                        headers: global::AvatarTalk.AutoSDKHttpResponse.CreateHeaders(__response),
+                                        requestUri: __response.RequestMessage?.RequestUri,
+                                        body: __value);
                                 }
                                 catch (global::System.Exception __ex)
                                 {

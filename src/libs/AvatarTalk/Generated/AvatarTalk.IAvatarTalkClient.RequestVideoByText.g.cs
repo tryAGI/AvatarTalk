@@ -23,6 +23,20 @@ namespace AvatarTalk
         /// Request an avatar video generation using Bitcoin Lightning Network payment.<br/>
         /// Provide text to generate a Lightning invoice for payment.
         /// </summary>
+        /// <param name="request"></param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
+        /// <param name="cancellationToken">The token to cancel the operation with</param>
+        /// <exception cref="global::AvatarTalk.ApiException"></exception>
+        global::System.Threading.Tasks.Task<global::AvatarTalk.AutoSDKHttpResponse<global::AvatarTalk.LightningInvoiceResponse>> RequestVideoByTextAsResponseAsync(
+
+            global::AvatarTalk.LightningTextRequest request,
+            global::AvatarTalk.AutoSDKRequestOptions? requestOptions = default,
+            global::System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Request video via Lightning Network (text)<br/>
+        /// Request an avatar video generation using Bitcoin Lightning Network payment.<br/>
+        /// Provide text to generate a Lightning invoice for payment.
+        /// </summary>
         /// <param name="text">
         /// The text for the avatar to speak
         /// </param>

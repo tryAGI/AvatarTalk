@@ -74,5 +74,6 @@ namespace AvatarTalk
         public PaymentStatusResponse()
         {
         }
+
     }
 }
