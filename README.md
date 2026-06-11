@@ -40,6 +40,13 @@ using AvatarTalk;
 using var client = new AvatarTalkClient(apiKey);
 ```
 
+### CLI
+
+```bash
+dotnet tool install --global AvatarTalk.CLI --prerelease
+avatar-talk api --help
+```
+
 <!-- EXAMPLES:START -->
 <!-- EXAMPLES:END -->
 
