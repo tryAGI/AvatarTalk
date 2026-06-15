@@ -113,7 +113,7 @@ Provide text to generate a Lightning invoice for payment.
                         var text = parseResult.GetRequiredValue(Text);
                         var avatar = parseResult.GetRequiredValue(Avatar);
                         var emotion = parseResult.GetRequiredValue(Emotion);
-                        var language = CliRuntime.WasSpecified(parseResult, Language) ? parseResult.GetValue(Language) : __requestBase is not null ? __requestBase.Language : default;
+                        var language = CliRuntime.WasSpecified(parseResult, Language) ? parseResult.GetValue(Language) : (__requestBase is { } __LanguageBaseValue ? __LanguageBaseValue.Language : default);
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
 
 

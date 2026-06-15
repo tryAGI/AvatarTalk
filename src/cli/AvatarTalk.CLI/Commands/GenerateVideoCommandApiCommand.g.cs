@@ -132,8 +132,8 @@ Set the stream query parameter to true for streaming MP4 video response.
                         var text = parseResult.GetRequiredValue(Text);
                         var avatar = parseResult.GetRequiredValue(Avatar);
                         var emotion = parseResult.GetRequiredValue(Emotion);
-                        var language = CliRuntime.WasSpecified(parseResult, Language) ? parseResult.GetValue(Language) : __requestBase is not null ? __requestBase.Language : default;
-                        var delayed = CliRuntime.WasSpecified(parseResult, Delayed) ? parseResult.GetValue(Delayed) : __requestBase is not null ? __requestBase.Delayed : default;
+                        var language = CliRuntime.WasSpecified(parseResult, Language) ? parseResult.GetValue(Language) : (__requestBase is { } __LanguageBaseValue ? __LanguageBaseValue.Language : default);
+                        var delayed = CliRuntime.WasSpecified(parseResult, Delayed) ? parseResult.GetValue(Delayed) : (__requestBase is { } __DelayedBaseValue ? __DelayedBaseValue.Delayed : default);
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
 
 
