@@ -108,7 +108,7 @@ Submit an audio file to generate a Lightning invoice for payment.
                         var audio = parseResult.GetRequiredValue(Audio);
                         var audioname = parseResult.GetRequiredValue(Audioname);
                         var avatar = parseResult.GetRequiredValue(Avatar);
-                        var emotion = CliRuntime.WasSpecified(parseResult, Emotion) ? parseResult.GetValue(Emotion) : __requestBase is not null ? __requestBase.Emotion : default;
+                        var emotion = CliRuntime.WasSpecified(parseResult, Emotion) ? parseResult.GetValue(Emotion) : (__requestBase is { } __EmotionBaseValue ? __EmotionBaseValue.Emotion : default);
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
 
 

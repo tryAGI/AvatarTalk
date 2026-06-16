@@ -102,8 +102,8 @@ Returns session details including a participant token for joining the LiveKit ro
                             global::AvatarTalk.SourceGenerationContext.Default,
                             cancellationToken).ConfigureAwait(false);
                         var avatar = parseResult.GetRequiredValue(Avatar);
-                        var emotion = CliRuntime.WasSpecified(parseResult, Emotion) ? parseResult.GetValue(Emotion) : __requestBase is not null ? __requestBase.Emotion : default;
-                        var language = CliRuntime.WasSpecified(parseResult, Language) ? parseResult.GetValue(Language) : __requestBase is not null ? __requestBase.Language : default;
+                        var emotion = CliRuntime.WasSpecified(parseResult, Emotion) ? parseResult.GetValue(Emotion) : (__requestBase is { } __EmotionBaseValue ? __EmotionBaseValue.Emotion : default);
+                        var language = CliRuntime.WasSpecified(parseResult, Language) ? parseResult.GetValue(Language) : (__requestBase is { } __LanguageBaseValue ? __LanguageBaseValue.Language : default);
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
 
 
