@@ -10,59 +10,59 @@ namespace AvatarTalk
     public enum AvatarName
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         AfricanMan,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         AfricanWoman,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         ArabMan,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         ArabWoman,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         ColombianWoman,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         EuropeanMan,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         EuropeanWoman,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         IranianMan,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         JapaneseMan,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         JapaneseWoman,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         MexicanMan,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         MexicanWoman,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         OldEuropeanWoman,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         OldJapaneseMan,
     }

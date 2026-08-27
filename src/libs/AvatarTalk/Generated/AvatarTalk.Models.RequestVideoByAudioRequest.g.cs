@@ -4,7 +4,7 @@
 namespace AvatarTalk
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class RequestVideoByAudioRequest
     {

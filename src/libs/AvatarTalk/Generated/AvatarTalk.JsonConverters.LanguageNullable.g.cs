@@ -20,7 +20,7 @@ namespace AvatarTalk.JsonConverters
                     {
                         return global::AvatarTalk.LanguageExtensions.ToEnum(stringValue);
                     }
-                    
+
                     break;
                 }
                 case global::System.Text.Json.JsonTokenType.Number:
