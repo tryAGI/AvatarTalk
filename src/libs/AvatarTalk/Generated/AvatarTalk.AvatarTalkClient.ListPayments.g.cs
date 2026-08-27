@@ -126,7 +126,7 @@ namespace AvatarTalk
                          __authorization.Location == "Header")
                 {
                     __httpRequest.Headers.Add(__authorization.Name, __authorization.Value);
-                } 
+                }
             }
                 global::AvatarTalk.AutoSDKRequestOptionsSupport.ApplyHeaders(
                     request: __httpRequest,

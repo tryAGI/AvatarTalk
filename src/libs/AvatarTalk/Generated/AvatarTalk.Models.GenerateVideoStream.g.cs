@@ -4,16 +4,16 @@
 namespace AvatarTalk
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public enum GenerateVideoStream
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         False,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         True,
     }

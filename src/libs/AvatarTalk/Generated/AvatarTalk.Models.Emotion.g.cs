@@ -9,15 +9,15 @@ namespace AvatarTalk
     public enum Emotion
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Happy,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Neutral,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Serious,
     }
