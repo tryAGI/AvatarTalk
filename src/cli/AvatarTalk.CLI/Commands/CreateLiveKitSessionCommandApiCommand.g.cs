@@ -67,6 +67,8 @@ and pronunciation used for generating the avatar's speech.
                     static partial void CustomizeResponseFormatHints(Dictionary<string, CliFormatHint> hints);
 
 
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"create-live-kit-session", @"Create a LiveKit avatar session
@@ -121,6 +123,7 @@ Returns session details including a participant token for joining the LiveKit ro
                                     FormatResponse,
                                     cancellationToken).ConfigureAwait(false);
             }, cancellationToken).ConfigureAwait(false));
+        CustomizeCommand(ref command);
         return command;
     }
 }

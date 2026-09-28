@@ -75,6 +75,8 @@ and pronunciation used for generating the avatar's speech.
                     static partial void CustomizeResponseFormatHints(Dictionary<string, CliFormatHint> hints);
 
 
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"request-video-by-text", @"Request video via Lightning Network (text)
@@ -132,6 +134,7 @@ Provide text to generate a Lightning invoice for payment.
                                     FormatResponse,
                                     cancellationToken).ConfigureAwait(false);
             }, cancellationToken).ConfigureAwait(false));
+        CustomizeCommand(ref command);
         return command;
     }
 }

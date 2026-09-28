@@ -34,6 +34,8 @@ internal static partial class GenerateLightningVideoCommandApiCommand
                     static partial void CustomizeResponseFormatHints(Dictionary<string, CliFormatHint> hints);
 
 
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"generate-lightning-video", @"Generate video after Lightning payment
@@ -62,6 +64,7 @@ Use the invoice from the request-video endpoint.
                                     FormatResponse,
                                     cancellationToken).ConfigureAwait(false);
             }, cancellationToken).ConfigureAwait(false));
+        CustomizeCommand(ref command);
         return command;
     }
 }
