@@ -33,6 +33,8 @@ internal static partial class DeleteLiveKitSessionCommandApiCommand
                     static partial void CustomizeResponseFormatHints(Dictionary<string, CliFormatHint> hints);
 
 
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"delete-live-kit-session", @"Delete a LiveKit avatar session
@@ -60,6 +62,7 @@ Terminates an active LiveKit session and releases associated resources.
                                     FormatResponse,
                                     cancellationToken).ConfigureAwait(false);
             }, cancellationToken).ConfigureAwait(false));
+        CustomizeCommand(ref command);
         return command;
     }
 }

@@ -70,6 +70,8 @@ internal static partial class RequestVideoByAudioCommandApiCommand
                     static partial void CustomizeResponseFormatHints(Dictionary<string, CliFormatHint> hints);
 
 
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"request-video-by-audio", @"Request video via Lightning Network (audio)
@@ -127,6 +129,7 @@ Submit an audio file to generate a Lightning invoice for payment.
                                     FormatResponse,
                                     cancellationToken).ConfigureAwait(false);
             }, cancellationToken).ConfigureAwait(false));
+        CustomizeCommand(ref command);
         return command;
     }
 }
