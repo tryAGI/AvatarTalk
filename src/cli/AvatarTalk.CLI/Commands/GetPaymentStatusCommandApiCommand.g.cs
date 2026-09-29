@@ -35,9 +35,9 @@ internal static partial class GetPaymentStatusCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"get-payment-status", @"Check Lightning payment status
+        var command = new Command(commandName ?? @"get-payment-status", @"Check Lightning payment status
 Check the payment status of a Lightning Network invoice.
 ");
                         command.Arguments.Add(Invoice);

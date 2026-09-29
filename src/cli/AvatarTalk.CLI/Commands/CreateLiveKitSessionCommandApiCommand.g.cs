@@ -69,9 +69,9 @@ and pronunciation used for generating the avatar's speech.
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"create-live-kit-session", @"Create a LiveKit avatar session
+        var command = new Command(commandName ?? @"create-live-kit-session", @"Create a LiveKit avatar session
 Creates a new LiveKit session for real-time avatar interaction.
 Returns session details including a participant token for joining the LiveKit room.
 ");

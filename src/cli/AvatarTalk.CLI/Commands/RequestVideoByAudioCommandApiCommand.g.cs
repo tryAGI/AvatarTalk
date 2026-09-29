@@ -72,9 +72,9 @@ internal static partial class RequestVideoByAudioCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"request-video-by-audio", @"Request video via Lightning Network (audio)
+        var command = new Command(commandName ?? @"request-video-by-audio", @"Request video via Lightning Network (audio)
 Request an avatar video generation using Bitcoin Lightning Network payment.
 Submit an audio file to generate a Lightning invoice for payment.
 ");

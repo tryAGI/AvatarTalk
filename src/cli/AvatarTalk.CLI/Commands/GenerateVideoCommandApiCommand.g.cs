@@ -91,9 +91,9 @@ The response will include a task ID for polling the result.
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"generate-video", @"Generate avatar video
+        var command = new Command(commandName ?? @"generate-video", @"Generate avatar video
 Generate a lip-synced avatar video from text. The API uses text-to-speech
 to create audio and synchronizes avatar lip movements with the generated audio.
 Standard requests return a JSON response with video URLs.
