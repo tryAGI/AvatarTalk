@@ -77,9 +77,9 @@ and pronunciation used for generating the avatar's speech.
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"request-video-by-text", @"Request video via Lightning Network (text)
+        var command = new Command(commandName ?? @"request-video-by-text", @"Request video via Lightning Network (text)
 Request an avatar video generation using Bitcoin Lightning Network payment.
 Provide text to generate a Lightning invoice for payment.
 ");

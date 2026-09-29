@@ -36,9 +36,9 @@ internal static partial class GenerateLightningVideoCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"generate-lightning-video", @"Generate video after Lightning payment
+        var command = new Command(commandName ?? @"generate-lightning-video", @"Generate video after Lightning payment
 Generate the avatar video after a Lightning Network invoice has been paid.
 Use the invoice from the request-video endpoint.
 ");

@@ -35,9 +35,9 @@ internal static partial class DeleteLiveKitSessionCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"delete-live-kit-session", @"Delete a LiveKit avatar session
+        var command = new Command(commandName ?? @"delete-live-kit-session", @"Delete a LiveKit avatar session
 Terminates an active LiveKit session and releases associated resources.
 ");
                         command.Arguments.Add(TaskId);

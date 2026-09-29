@@ -31,9 +31,9 @@ internal static partial class ListPaymentsCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"list-payments", @"List all Lightning payments
+        var command = new Command(commandName ?? @"list-payments", @"List all Lightning payments
 List all Lightning Network payments associated with the API key.
 ");
 
