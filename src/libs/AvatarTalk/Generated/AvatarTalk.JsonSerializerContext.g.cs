@@ -32,6 +32,7 @@ namespace AvatarTalk
     #pragma warning restore CS3016
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::AvatarTalk.JsonSerializerContextTypes))]
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::System.Collections.Generic.List<object>), TypeInfoPropertyName = "SystemCollectionsGeneric_ObjectList")]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(string[]))]
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::AvatarTalk.AvatarName), TypeInfoPropertyName = "AvatarName2")]
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::AvatarTalk.Emotion), TypeInfoPropertyName = "Emotion2")]
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::AvatarTalk.Language), TypeInfoPropertyName = "Language2")]
