@@ -18,7 +18,7 @@ namespace AvatarTalk.JsonConverters
                     var stringValue = reader.GetString();
                     if (stringValue != null)
                     {
-                        return global::AvatarTalk.GenerateVideoStreamExtensions.ToEnum(stringValue) ?? default;
+                        return global::AvatarTalk.GenerateVideoStreamExtensions.ToEnum(stringValue) ?? throw new global::System.Text.Json.JsonException($"Unknown value '{stringValue}' for global::AvatarTalk.GenerateVideoStream.");
                     }
 
                     break;

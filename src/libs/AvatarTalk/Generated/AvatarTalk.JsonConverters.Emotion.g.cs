@@ -18,7 +18,7 @@ namespace AvatarTalk.JsonConverters
                     var stringValue = reader.GetString();
                     if (stringValue != null)
                     {
-                        return global::AvatarTalk.EmotionExtensions.ToEnum(stringValue) ?? default;
+                        return global::AvatarTalk.EmotionExtensions.ToEnum(stringValue) ?? throw new global::System.Text.Json.JsonException($"Unknown value '{stringValue}' for global::AvatarTalk.Emotion.");
                     }
 
                     break;
